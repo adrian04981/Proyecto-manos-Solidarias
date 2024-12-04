@@ -4,7 +4,7 @@ import NameForm from "./components/NameForm";
 import ThankYouCard from "./components/ThankYouCard";
 
 const App = () => {
-  const [name, setName] = useState(""); // Estado global para el nombre
+  const [name, setName] = useState("");
 
   return (
     <Router>

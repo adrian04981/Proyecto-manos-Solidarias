@@ -8,8 +8,8 @@ const NameForm = ({ setName }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setName(input); // Guardar el nombre ingresado
-    navigate("/thank-you"); // Navegar a la tarjeta
+    setName(input);
+    navigate("/thank-you");
   };
 
   return (

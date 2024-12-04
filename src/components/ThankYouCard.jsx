@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import * as htmlToImage from "html-to-image";
 import { jsPDF } from "jspdf";
-import backgroundImage from "../assets/background.png"; // Ajusta la ruta según tu estructura
+import backgroundImage from "../assets/background.png";
 
 const ThankYouCard = ({ name }) => {
   const cardRef = useRef(null);
@@ -25,7 +25,7 @@ const ThankYouCard = ({ name }) => {
         const pdf = new jsPDF({
           orientation: "portrait",
           unit: "px",
-          format: [275, 420], // Tamaño ajustado
+          format: [275, 420],
         });
         pdf.addImage(dataUrl, "PNG", -25, 0, 300, 420);
         pdf.save("thank-you-card.pdf");

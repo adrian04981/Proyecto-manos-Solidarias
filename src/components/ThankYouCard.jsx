@@ -25,9 +25,9 @@ const ThankYouCard = ({ name }) => {
         const pdf = new jsPDF({
           orientation: "portrait",
           unit: "px",
-          format: [275, 420],
+          format: [300, 420],
         });
-        pdf.addImage(dataUrl, "PNG", -25, 0, 300, 420);
+        pdf.addImage(dataUrl, "PNG", 0, 0, 300, 420);
         pdf.save("thank-you-card.pdf");
       });
     }

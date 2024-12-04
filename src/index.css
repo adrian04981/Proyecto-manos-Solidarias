@@ -12,6 +12,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+body {
+  font-family: Arial, sans-serif;
+  background-color: #e44a4a;
+  margin: 0;
+  padding: 0;
+}
 
 a {
   font-weight: 500;

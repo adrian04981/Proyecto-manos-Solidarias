@@ -14,7 +14,7 @@ const NameForm = ({ setName }) => {
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px", position: "relative", zIndex: 1 }}>
-    <img src="src/assets/header-logo-white.png" alt="Header Logo" style={{ width: "150px", marginBottom: "20px" }} />
+    <img src="../assets/header-logo-white.png" alt="Header Logo" style={{ width: "150px", marginBottom: "20px" }} />
     <h1>Ingresa tu nombre</h1>
     <form onSubmit={handleSubmit}>
         <input

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import './NameForm.css';
 
 const NameForm = ({ setName }) => {
   const [input, setInput] = useState("");
@@ -12,22 +13,79 @@ const NameForm = ({ setName }) => {
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Ingresa tu nombre</h1>
-      <form onSubmit={handleSubmit}>
+    <div style={{ textAlign: "center", marginTop: "50px", position: "relative", zIndex: 1 }}>
+    <img src="src/assets/header-logo-white.png" alt="Header Logo" style={{ width: "150px", marginBottom: "20px" }} />
+    <h1>Ingresa tu nombre</h1>
+    <form onSubmit={handleSubmit}>
         <input
-          type="text"
-          placeholder="Tu nombre"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          required
-          style={{ padding: "10px", fontSize: "16px" }}
+            type="text"
+            placeholder="Tu nombre"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            required
+            style={{ padding: "10px", fontSize: "16px", zIndex: 2 }}
         />
         <br />
         <button type="submit" style={{ marginTop: "20px", padding: "10px 20px" }}>
-          Crear Tarjeta
+            Crear Tarjeta
         </button>
-      </form>
+    </form>
+
+
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      	<div class="initial-snow">
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+		<div class="snow">&#10052;</div>
+      </div>
+    </div>
     </div>
   );
 };

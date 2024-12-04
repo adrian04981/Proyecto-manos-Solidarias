@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import * as htmlToImage from "html-to-image";
 import { jsPDF } from "jspdf";
+import backgroundImage from "../assets/background.png";
 
 const ThankYouCard = ({ name }) => {
   const cardRef = useRef(null);

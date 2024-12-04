@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './NameForm.css';
+import header from '@/assets/header-logo-white.png';
 
 const NameForm = ({ setName }) => {
   const [input, setInput] = useState("");
@@ -14,7 +15,7 @@ const NameForm = ({ setName }) => {
 
 return (
 	<div style={{ textAlign: "center", marginTop: "50px", position: "relative", zIndex: 1 }}>
-		<img src="src/assets/header-logo-white.png" alt="Header Logo" style={{ width: "150px", marginBottom: "20px" }} />
+		<img src={header} alt="Header Logo" style={{ width: "150px", marginBottom: "20px" }} />
 		<h1>Ingresa tu nombre</h1>
 		<form onSubmit={handleSubmit}>
 			<input

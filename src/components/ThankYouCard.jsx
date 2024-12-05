@@ -2,8 +2,8 @@ import React, { useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
-import backgroundImage from "../assets/background.png"; // Importa la imagen
-
+import backgroundImage from "../assets/Certificado_Manos_Solidarias.png"; // Importa la imagen
+import './NameForm.css';
 const ThankYouCard = () => {
   const { name } = useParams();
   const navigate = useNavigate();
@@ -46,40 +46,36 @@ const ThankYouCard = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "20px" }}>
-      <button onClick={() => navigate("/")} style={{ marginBottom: "20px" }}>
+    <div>
+      <button onClick={() => navigate("/")} style={{ marginBottom: "20px", }}>
         Regresar
       </button>
       <div
-  ref={cardRef}
-  style={{
-    width: "300px",
-    height: "420px",
-    margin: "0 auto",
-    backgroundImage: `url(${backgroundImage})`, 
-    backgroundSize: "cover", 
-    backgroundPosition: "center",
-    border: "2px solid #ddd",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-    fontFamily: "Arial, sans-serif",
-    color: "#fff",
-    textAlign: "center",
-  }}
->
-  <h2 style={{ fontSize: "20px", fontWeight: "bold", marginTop: "170px", color: "#808080"}}>
-    {decodeURIComponent(name)}
-  </h2>
-</div>
-
+        ref={cardRef}
+        style={{
+          width: "300px",
+          height: "420px",
+          margin: "0 auto",
+          backgroundImage: `url(${backgroundImage})`, 
+          backgroundSize: "cover", 
+          backgroundPosition: "center",
+          border: "2px solid #ddd",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          color: "#fff",
+          textAlign: "center",
+        }}
+      >
+        <h2 style={{ fontSize: "20px", fontWeight: "bold", marginTop: "115px", color: "#fff"}}>
+          {decodeURIComponent(name)}
+        </h2>
+      </div>
+  
       <div style={{ marginTop: "20px" }}>
         <button onClick={downloadPNG} style={{ margin: "10px", padding: "10px 20px" }}>
           Descargar PNG
-        </button>
-        <button onClick={downloadPDF} style={{ margin: "10px", padding: "10px 20px" }}>
-          Descargar PDF
         </button>
         <button onClick={shareCard} style={{ margin: "10px", padding: "10px 20px" }}>
           Compartir

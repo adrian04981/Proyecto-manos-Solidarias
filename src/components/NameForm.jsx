@@ -45,7 +45,6 @@ const NameForm = () => {
           >
             CONTINUAR
           </button>
-          <img></img>
         </div>
       </div>
     </>

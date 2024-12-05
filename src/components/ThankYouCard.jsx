@@ -1,91 +1,90 @@
-import React, { useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import * as htmlToImage from "html-to-image";
+import React, { useRef } from "react"; 
+import { useParams, useNavigate } from "react-router-dom";
+import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
-import backgroundImage from "../assets/background.png";
+import backgroundImage from "../assets/background.png"; // Importa la imagen
 
-const ThankYouCard = ({ name }) => {
-  const cardRef = useRef(null);
+const ThankYouCard = () => {
+  const { name } = useParams();
   const navigate = useNavigate();
+  const cardRef = useRef();
 
-  const handleDownload = () => {
-    if (cardRef.current) {
-      htmlToImage.toPng(cardRef.current).then((dataUrl) => {
-        const link = document.createElement("a");
-        link.download = "thank-you-card.png";
-        link.href = dataUrl;
-        link.click();
-      });
-    }
+  const downloadPNG = async () => {
+    const canvas = await html2canvas(cardRef.current);
+    const link = document.createElement("a");
+    link.download = "feliz_navidad.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
   };
 
-  const handleDownloadPDF = () => {
-    if (cardRef.current) {
-      htmlToImage.toPng(cardRef.current).then((dataUrl) => {
-        const pdf = new jsPDF({
-          orientation: "portrait",
-          unit: "px",
-          format: [300, 420],
-        });
-        pdf.addImage(dataUrl, "PNG", 0, 0, 300, 420);
-        pdf.save("thank-you-card.pdf");
-      });
-    }
+  const downloadPDF = async () => {
+    const canvas = await html2canvas(cardRef.current);
+    const imgData = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF("portrait", "pt", "a4");
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    pdf.addImage(imgData, "PNG", 0, 0, pageWidth, pageHeight);
+    pdf.save("feliz_navidad.pdf");
   };
 
-  const handleShare = async () => {
+  const shareCard = async () => {
+    const canvas = await html2canvas(cardRef.current);
+    const imgData = canvas.toDataURL("image/png");
     if (navigator.share) {
-      if (cardRef.current) {
-        const dataUrl = await htmlToImage.toPng(cardRef.current);
-        const blob = await (await fetch(dataUrl)).blob();
-        const file = new File([blob], "thank-you-card.png", { type: "image/png" });
-
-        navigator.share({
-          files: [file],
-          title: "Gracias",
-          text: `Gracias ${name}`,
-        });
-      }
+      const blob = await (await fetch(imgData)).blob();
+      const file = new File([blob], "feliz_navidad.png", { type: "image/png" });
+      navigator.share({
+        files: [file],
+        title: "Feliz Navidad",
+        text: `Mira mi tarjeta personalizada: Feliz Navidad, ${name}!`,
+      });
     } else {
-      alert("Tu navegador no soporta compartir.");
+      alert("La función de compartir no está disponible en este navegador.");
     }
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <div
-        ref={cardRef}
-        style={{
-          width: "300px",
-          height: "420px",
-          margin: "auto",
-          padding: "20px",
-          backgroundColor: "#f0f0f0",
-          borderRadius: "10px",
-          textAlign: "center",
-          boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
-          backgroundImage: `url(${backgroundImage})`, // Uso de la imagen PNG
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-end",
-        }}
-      >
-        <h2 style={{ color: "#7e7a79", marginBottom: "105px" }}>{name}</h2>
-      </div>
-      <button onClick={handleDownload} style={{ margin: "10px", padding: "10px 20px" }}>
-        Descargar PNG
-      </button>
-      <button onClick={handleDownloadPDF} style={{ margin: "10px", padding: "10px 20px" }}>
-        Descargar PDF
-      </button>
-      <button onClick={handleShare} style={{ margin: "10px", padding: "10px 20px" }}>
-        Compartir
-      </button>
-      <button onClick={() => navigate("/")} style={{ marginTop: "20px", padding: "10px 20px" }}>
+    <div style={{ textAlign: "center", padding: "20px" }}>
+      <button onClick={() => navigate("/")} style={{ marginBottom: "20px" }}>
         Regresar
       </button>
+      <div
+  ref={cardRef}
+  style={{
+    width: "300px",
+    height: "420px",
+    margin: "0 auto",
+    backgroundImage: `url(${backgroundImage})`, 
+    backgroundSize: "cover", 
+    backgroundPosition: "center",
+    border: "2px solid #ddd",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    fontFamily: "Arial, sans-serif",
+    color: "#fff",
+    textAlign: "center",
+  }}
+>
+  <h2 style={{ fontSize: "20px", fontWeight: "bold", marginTop: "170px", color: "#808080"}}>
+    {decodeURIComponent(name)}
+  </h2>
+</div>
+
+      <div style={{ marginTop: "20px" }}>
+        <button onClick={downloadPNG} style={{ margin: "10px", padding: "10px 20px" }}>
+          Descargar PNG
+        </button>
+        <button onClick={downloadPDF} style={{ margin: "10px", padding: "10px 20px" }}>
+          Descargar PDF
+        </button>
+        <button onClick={shareCard} style={{ margin: "10px", padding: "10px 20px" }}>
+          Compartir
+        </button>
+      </div>
     </div>
   );
 };

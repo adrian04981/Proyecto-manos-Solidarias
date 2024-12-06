@@ -29,12 +29,23 @@ const Preview = () => {
     container.style.fontSize = '75px';
     container.style.whiteSpace = 'nowrap';
 
-    
+    // Texto posicionado dentro del contenedor
+    const textElement = document.createElement('span');
+    textElement.innerText = name;
+    textElement.style.position = 'absolute';
+    textElement.style.bottom = '200px'; // Ajustar según el diseño
+    textElement.style.left = '50%';
+    textElement.style.transform = 'translateX(-50%)';
+    textElement.style.color = 'white'; // Cambiar según fondo
+    textElement.style.fontWeight = 'bold';
+    textElement.style.fontSize = '75px';
+    textElement.style.whiteSpace = 'nowrap';
+
     container.appendChild(textElement);
 
     document.body.appendChild(container);
 
-    const canvas = await html2canvas(container, { scale: 2 });
+    const canvas = await html2canvas(container, { scale: 2, useCORS: true });
     const link = document.createElement('a');
     link.download = `${name}.png`;
     link.href = canvas.toDataURL('image/png');

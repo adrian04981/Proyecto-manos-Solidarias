@@ -70,13 +70,13 @@ const Preview = () => {
   };
 
   return (
-    <div style={{ padding: '20px', textAlign: 'center' }}>
+    <div style={{ padding: '0px', textAlign: 'center' }}>
       {/* Botón para regresar al menú */}
       <img
         src={regresar}
         alt="Botón regresar"
         style={{
-          marginTop: '30px',
+          marginTop: '5px',
           width: '230px',
           height: '70px',
           cursor: 'pointer',
@@ -104,7 +104,7 @@ const Preview = () => {
         }}
       >
         {/* Nombre del usuario */}
-        <span class = "elnombre"
+        <span
         >
           {name}
         </span>

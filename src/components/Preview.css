@@ -1,7 +1,7 @@
 span
 {
     position: absolute;
-    bottom: 155px; 
+    bottom: 145px; 
     left: 50%; 
     transform: translateX(-50%); 
     color: white; 
@@ -10,8 +10,8 @@ span
     white-space: nowrap;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 1000px) {
     span {
-        bottom: 155px;
+        bottom: 145px;
     }
 }

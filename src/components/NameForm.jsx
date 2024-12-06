@@ -1,53 +1,36 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import './NameForm.css';
-import imga from '@/assets/header-logo-white.png';
-import mgs from '@/assets/botón regresar.png';
-
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import bsf from '@/assets/Logo-bsf-en-blanco.webp';
 const NameForm = () => {
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    if (name.trim()) navigate(`/card/${encodeURIComponent(name)}`);
+  const handlePreview = (e) => {
+    e.preventDefault();
+    if (name.trim()) {
+      navigate(`/preview/${name}`);
+    }
   };
 
   return (
-    <>
-      <div style={{ textAlign: "center", padding: "20px", marginTop: "200px" }}>
-        <h1 style={{ color: "#fff", fontFamily: "Bookman Old Style Bold" , fontWeight: "bold", textAlign: "center",
-    textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)"}}>CREA TU TARJETA DE NAVIDAD</h1>
+    <div style={{ padding: '20px', textAlign: 'center', color: '#fff' }}>
+      <h1>INGRESA TU NOMBRE</h1>
+      <form onSubmit={handlePreview}>
         <input
           type="text"
+          placeholder="Escribe tu nombre"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Escribe tu nombre"
-          style={{
-            padding: "10px",
-            fontSize: "20px",
-            margin: "10px 0",
-            width: "80%",
-            maxWidth: "300px",
-            opacity: 0.3,
-            borderRadius: "10px",
-            textAlign: "center",
-            color: "#000"
-          }}
+          style={{ padding: '10px', fontSize: '16px', borderRadius: '8px', textAlign: 'center', opacity : '0.7' }}
         />
-        <div>
-          <button 
-            onClick={handleSubmit}
-            style={{
-              cursor: "pointer",
-              fontWeight: "bold",
-              font: "Sarvatrik Latin VF"
-            }}
-          >
-            CONTINUAR
-          </button>
-        </div>
-      </div>
-    </>
+        <div style={{ padding: '20px' }}/>
+        <button type="submit" style={{ padding: '20px 40px', color: 'green', fontSize: '30px', borderRadius: '8px' }}>
+          Aceptar
+        </button>
+      </form>
+      
+      <img src={bsf} alt="BSF Logo" style={{ width: '200px', height: 'auto', marginTop: '20px', borderRadius: '8px' }} />
+    </div>
   );
 };
 

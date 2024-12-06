@@ -12,7 +12,6 @@ const Preview = () => {
   const { name } = useParams();
   const navigate = useNavigate(); // Hook para manejar navegación
   const previewRef = useRef();
-
   const handleDownload = async () => {
     const container = document.createElement('div');
     container.style.width = '2480px'; // Tamaño A4
@@ -24,6 +23,11 @@ const Preview = () => {
     container.style.display = 'flex';
     container.style.justifyContent = 'center';
     container.style.alignItems = 'center';
+    container.style.color = 'black'; // Cambiar según fondo
+    container.style.fontWeight = 'bold';
+    container.style.fontSize = '75px';
+    container.style.whiteSpace = 'nowrap';
+
     // Texto posicionado dentro del contenedor
     const textElement = document.createElement('span');
     textElement.innerText = name;

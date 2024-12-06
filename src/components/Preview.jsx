@@ -12,11 +12,12 @@ const Preview = () => {
   const { name } = useParams();
   const navigate = useNavigate(); // Hook para manejar navegación
   const previewRef = useRef();
+  
   const handleDownload = async () => {
     const container = document.createElement('div');
     container.style.width = '2480px'; // Tamaño A4
     container.style.height = '3508px';
-    container.style.backgroundImage = `url(${certificadoGRANDE})`;
+    container.style.backgroundImage =  `url(${certificado})`,
     container.style.backgroundSize = 'cover';
     container.style.backgroundPosition = 'center';
     container.style.position = 'relative'; // Necesario para posicionar el texto
@@ -28,18 +29,7 @@ const Preview = () => {
     container.style.fontSize = '75px';
     container.style.whiteSpace = 'nowrap';
 
-    // Texto posicionado dentro del contenedor
-    const textElement = document.createElement('span');
-    textElement.innerText = name;
-    textElement.style.position = 'absolute';
-    textElement.style.bottom = '390px'; // Ajustar según el diseño
-    textElement.style.left = '50%';
-    textElement.style.transform = 'translateX(-50%)';
-    textElement.style.color = 'white'; // Cambiar según fondo
-    textElement.style.fontWeight = 'bold';
-    textElement.style.fontSize = '75px';
-    textElement.style.whiteSpace = 'nowrap';
-
+    
     container.appendChild(textElement);
 
     document.body.appendChild(container);

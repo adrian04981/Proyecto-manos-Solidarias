@@ -4,6 +4,7 @@ import html2canvas from 'html2canvas';
 import regresar from '@/assets/botón_regresar.png';
 import descargar from '@/assets/descargar.webp';
 import compartir from '@/assets/compartir.webp';
+import './Preview.css';
 
 const Preview = () => {
   const { name } = useParams();
@@ -91,7 +92,7 @@ const Preview = () => {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           margin: '0 auto',
-          display: 'flex',
+          display: 'auto',
           justifyContent: 'center',
           alignItems: 'center',
           fontSize: '24px',
@@ -102,19 +103,7 @@ const Preview = () => {
         }}
       >
         {/* Nombre del usuario */}
-        <span
-          style={{
-            position: 'absolute',
-            bottom: '175px', // Ajusta la distancia desde la parte inferior
-            left: '50%', // Centra horizontalmente
-            transform: 'translateX(-50%)', // Ajusta para un centrado perfecto
-            color: 'white', // Cambia el color del texto
-            fontWeight: 'bold', // Negrita para mayor visibilidad
-            fontSize: '25px', // Tamaño del texto
-            whiteSpace: 'nowrap', // Evita que el texto se quiebre en varias líneas
-            '@media (min-width: 800px)': {
-              bottom: '145px',}// Para pantallas más grandes
-          }}
+        <span class = "elnombre"
         >
           {name}
         </span>

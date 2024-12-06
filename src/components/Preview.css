@@ -1,0 +1,17 @@
+span
+{
+    position: absolute;
+    bottom: 155px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    color: white; 
+    font-weight: bold;
+    font-size: 25px;
+    white-space: nowrap;
+}
+
+@media (min-width: 800px) {
+    span {
+        bottom: 155px;
+    }
+}

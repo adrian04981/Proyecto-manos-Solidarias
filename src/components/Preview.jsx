@@ -12,8 +12,8 @@ const Preview = () => {
 
   const handleDownload = async () => {
     const container = document.createElement('div');
-    container.style.width = '4501px'; // Tamaño A4
-    container.style.height = '6451px';
+    container.style.width = '2480px'; // Tamaño A4
+    container.style.height = '3508px';
     container.style.backgroundImage = `url(/src/assets/CertificadoManosSolidarias.png)`;
     container.style.backgroundSize = 'cover';
     container.style.backgroundPosition = 'center';

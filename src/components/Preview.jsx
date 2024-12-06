@@ -72,7 +72,7 @@ const PreviewCertificate = () => {
       alignItems: 'center',
       minHeight: '100vh',
       textAlign: 'center',
-      transform: 'translateY(-70px)', // Mover todo 20px más arriba del centro
+      transform: window.innerWidth <= 768 ? 'translateY(-70px)' : 'translateY(0)', // Mover todo 70px más arriba del centro en móviles
     }}>
       {/* Botón de regresar */}
       <img

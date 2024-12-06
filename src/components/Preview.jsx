@@ -1,136 +1,129 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import html2canvas from 'html2canvas';
-import regresar from '@/assets/botón_regresar.png';
-import descargar from '@/assets/descargar.webp';
-import compartir from '@/assets/compartir.webp';
-import './Preview.css';
-import certificadoGRANDE from '../assets/CertificadoManosSolidarias.png';
-import certificado from '../assets/Certificado_Manos_Solidarias.webp';
+import certificadoFondo from '@/assets/CertificadoManosSolidarias.png'; // Ruta del fondo
+import regresar from '@/assets/botón_regresar.png'; // Ruta para botón de regresar
+import compartir from '@/assets/compartir.webp'; // Ruta para botón de compartir
+import descarga from '@/assets/descargar.webp'; // Ruta para botón de descarga
 
-const Preview = () => {
+const PreviewCertificate = () => {
   const { name } = useParams();
-  const navigate = useNavigate(); // Hook para manejar navegación
-  const previewRef = useRef();
-  
-  const handleDownload = async () => {
-    const container = document.createElement('div');
-    container.style.width = '2480px'; // Tamaño A4
-    container.style.height = '3508px';
-    container.style.backgroundImage =  `url(${certificado})`,
-    container.style.backgroundSize = 'cover';
-    container.style.backgroundPosition = 'center';
-    container.style.position = 'relative'; // Necesario para posicionar el texto
-    container.style.display = 'flex';
-    container.style.justifyContent = 'center';
-    container.style.alignItems = 'center';
-    container.style.color = 'black'; // Cambiar según fondo
-    container.style.fontWeight = 'bold';
-    container.style.fontSize = '75px';
-    container.style.whiteSpace = 'nowrap';
+  const canvasRef = useRef(null);
+  const navigate = useNavigate();
 
-    // Texto posicionado dentro del contenedor
-    const textElement = document.createElement('span');
-    textElement.innerText = name;
-    textElement.style.position = 'absolute';
-    textElement.style.bottom = '200px'; // Ajustar según el diseño
-    textElement.style.left = '50%';
-    textElement.style.transform = 'translateX(-50%)';
-    textElement.style.color = 'white'; // Cambiar según fondo
-    textElement.style.fontWeight = 'bold';
-    textElement.style.fontSize = '75px';
-    textElement.style.whiteSpace = 'nowrap';
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
 
-    container.appendChild(textElement);
+    // Configuración del tamaño A4 horizontal (en píxeles a 300 dpi)
+    const width = 2480; // Ancho en píxeles
+    const height = 3508; // Alto en píxeles
+    canvas.width = width;
+    canvas.height = height;
 
-    document.body.appendChild(container);
+    // Cargar la imagen de fondo
+    const background = new Image();
+    background.src = certificadoFondo;
+    background.onload = () => {
+      // Dibujar la imagen de fondo
+      ctx.drawImage(background, 0, 0, width, height);
 
-    const canvas = await html2canvas(container, { scale: 2, useCORS: true });
+      // Texto del certificado
+      ctx.font = '200px Arial';
+      ctx.fillStyle = '#fff';
+      ctx.textAlign = 'center';
+
+      // Nombre
+      ctx.fillText(name, width / 2, 2230);
+    };
+  }, [name]);
+
+  // Función para descargar la imagen como PNG
+  const handleDownload = () => {
+    const canvas = canvasRef.current;
     const link = document.createElement('a');
-    link.download = `${name}.png`;
+    link.download = 'certificado.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
-
-    document.body.removeChild(container);
   };
 
-  const handleShare = async () => {
-    const canvas = await html2canvas(previewRef.current, { scale: 2 });
-    const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
-    const file = new File([blob], `${name}.png`, { type: 'image/png' });
+  // Función para regresar a la página anterior
+  const handleBack = () => {
+    navigate(-1); // Regresa a la página anterior
+  };
 
+  // Función para compartir en redes sociales
+  const handleShare = () => {
     if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'Certificado',
-          text: `Aquí está tu certificado: ${name}`,
-          files: [file],
-        });
-      } catch (error) {
-        alert('No se pudo compartir la imagen.');
-      }
+      navigator.share({
+        title: 'Certificado',
+        text: `¡Mira el certificado que he recibido!`,
+        url: window.location.href, // Comparte la URL actual
+      }).catch((error) => console.error('Error al compartir:', error));
     } else {
-      alert('La funcionalidad para compartir no está disponible en este navegador.');
+      alert('La función de compartir no está soportada en este navegador.');
     }
   };
 
   return (
-    <div style={{ padding: '0px', textAlign: 'center' }}>
-      {/* Botón para regresar al menú */}
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '100vh',
+      textAlign: 'center',
+    }}>
+      {/* Botón de regresar */}
       <img
         src={regresar}
-        alt="Botón regresar"
+        alt="Regresar"
         style={{
-          marginTop: '5px',
-          width: '230px',
-          height: '70px',
+          width: '150px',
+          height: 'auto',
+          borderRadius: '8px',
           cursor: 'pointer',
-          marginBottom: '0px',
+          marginBottom: '20px',
         }}
-        onClick={() => navigate('/')} // Navegar al menú principal
+        onClick={handleBack}
       />
-      <div
-        ref={previewRef}
+      {/* Canvas para el certificado */}
+      <canvas
+        ref={canvasRef}
         style={{
-          width: '800px',
-          height: '500px',
-          backgroundImage: `url(${certificado})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          margin: '0 auto',
-          display: 'auto',
-          justifyContent: 'center',
-          alignItems: 'center',
-          fontSize: '24px',
-          maxWidth: '40%', // Adaptación estética
-          maxHeight: '65vh', // Adaptación estética
-          boxShadow: '0px 4px 6px rgba(0,0,0,0.1)', // Sombra ligera
-          position: 'relative', // Necesario para usar posicionamiento absoluto dentro
+          border: '1px solid #ddd',
+          borderRadius: '8px',
+          marginBottom: '20px',
+          width: '380px',
+          height: '480px', // Proporción A4
         }}
-      >
-        {/* Nombre del usuario */}
-        <span
-        >
-          {name}
-        </span>
+      />
+      {/* Botones de acción */}
+      <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
+        <img
+          src={compartir}
+          alt="Compartir"
+          style={{
+            width: '150px',
+            height: 'auto',
+            borderRadius: '8px',
+            cursor: 'pointer',
+          }}
+          onClick={handleShare}
+        />
+        <img
+          src={descarga}
+          alt="Descargar"
+          style={{
+            width: '150px',
+            height: 'auto',
+            borderRadius: '8px',
+            cursor: 'pointer',
+          }}
+          onClick={handleDownload} // Corrección: llama a handleDownload
+        />
       </div>
-      {/* Botón para descargar */}
-      <div style={{ marginBottom: '20px' }}></div>
-      <img
-        src={descargar}
-        alt="Botón descargar"
-        style={{ width: '200px', height: '50px', cursor: 'pointer', marginBottom: '40px' }}
-        onClick={handleDownload} // Llama a la función para descargar
-      />
-      {/* Botón para compartir */}
-      <img
-        src={compartir}
-        alt="Botón compartir"
-        style={{ width: '200px', height: '50px', cursor: 'pointer', marginBottom: '40px' }}
-        onClick={handleShare} // Llama a la función para compartir
-      />
     </div>
   );
 };
 
-export default Preview;
+export default PreviewCertificate;

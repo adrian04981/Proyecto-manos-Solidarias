@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import bsf from '@/assets/Logo-bsf-en-blanco.webp';
-import texto from '@/assets/Texto -Crea tu tarjeta de Navidad- vertical.png'
+import texto from '@/assets/texto registra tu donación.png'
 import continuar from '@/assets/Botón continuar.png'
 const NameForm = () => {
   const [name, setName] = useState('');

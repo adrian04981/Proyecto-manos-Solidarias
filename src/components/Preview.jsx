@@ -112,8 +112,8 @@ const Preview = () => {
             fontWeight: 'bold', // Negrita para mayor visibilidad
             fontSize: '25px', // Tamaño del texto
             whiteSpace: 'nowrap', // Evita que el texto se quiebre en varias líneas
-            '@media (min-width: 900px)': {
-              bottom: '155px',}// Para pantallas más grandes
+            '@media (min-width: 800px)': {
+              bottom: '145px',}// Para pantallas más grandes
           }}
         >
           {name}

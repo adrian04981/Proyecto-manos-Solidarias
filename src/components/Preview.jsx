@@ -12,8 +12,8 @@ const Preview = () => {
 
   const handleDownload = async () => {
     const container = document.createElement('div');
-    container.style.width = '210mm'; // Tamaño A4
-    container.style.height = '297mm';
+    container.style.width = '4501px'; // Tamaño A4
+    container.style.height = '6451px';
     container.style.backgroundImage = `url(/src/assets/CertificadoManosSolidarias.png)`;
     container.style.backgroundSize = 'cover';
     container.style.backgroundPosition = 'center';
@@ -85,8 +85,8 @@ const Preview = () => {
       <div
         ref={previewRef}
         style={{
-          width: '210mm',
-          height: '297mm',
+          width: '800px',
+          height: '500px',
           backgroundImage: `url(/src/assets/Certificado_Manos_Solidarias.webp)`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -105,13 +105,15 @@ const Preview = () => {
         <span
           style={{
             position: 'absolute',
-            bottom: '155px', // Ajusta la distancia desde la parte inferior
+            bottom: '175px', // Ajusta la distancia desde la parte inferior
             left: '50%', // Centra horizontalmente
             transform: 'translateX(-50%)', // Ajusta para un centrado perfecto
             color: 'white', // Cambia el color del texto
             fontWeight: 'bold', // Negrita para mayor visibilidad
             fontSize: '25px', // Tamaño del texto
             whiteSpace: 'nowrap', // Evita que el texto se quiebre en varias líneas
+            '@media (min-width: 900px)': {
+              bottom: '155px',}// Para pantallas más grandes
           }}
         >
           {name}

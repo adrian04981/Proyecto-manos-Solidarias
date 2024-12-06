@@ -5,6 +5,8 @@ import regresar from '@/assets/botón_regresar.png';
 import descargar from '@/assets/descargar.webp';
 import compartir from '@/assets/compartir.webp';
 import './Preview.css';
+import certificadoGRANDE from '../assets/CertificadoManosSolidarias.png';
+import certificado from '../assets/Certificado_Manos_Solidarias.webp';
 
 const Preview = () => {
   const { name } = useParams();
@@ -15,14 +17,13 @@ const Preview = () => {
     const container = document.createElement('div');
     container.style.width = '2480px'; // Tamaño A4
     container.style.height = '3508px';
-    container.style.backgroundImage = `url(/src/assets/CertificadoManosSolidarias.png)`;
+    container.style.backgroundImage = `url(${certificadoGRANDE})`;
     container.style.backgroundSize = 'cover';
     container.style.backgroundPosition = 'center';
     container.style.position = 'relative'; // Necesario para posicionar el texto
     container.style.display = 'flex';
     container.style.justifyContent = 'center';
     container.style.alignItems = 'center';
-
     // Texto posicionado dentro del contenedor
     const textElement = document.createElement('span');
     textElement.innerText = name;
@@ -79,7 +80,7 @@ const Preview = () => {
           width: '230px',
           height: '70px',
           cursor: 'pointer',
-          marginBottom: '20px',
+          marginBottom: '0px',
         }}
         onClick={() => navigate('/')} // Navegar al menú principal
       />
@@ -88,7 +89,7 @@ const Preview = () => {
         style={{
           width: '800px',
           height: '500px',
-          backgroundImage: `url(/src/assets/Certificado_Manos_Solidarias.webp)`,
+          backgroundImage: `url(${certificado})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           margin: '0 auto',
@@ -97,7 +98,7 @@ const Preview = () => {
           alignItems: 'center',
           fontSize: '24px',
           maxWidth: '40%', // Adaptación estética
-          maxHeight: '70vh', // Adaptación estética
+          maxHeight: '65vh', // Adaptación estética
           boxShadow: '0px 4px 6px rgba(0,0,0,0.1)', // Sombra ligera
           position: 'relative', // Necesario para usar posicionamiento absoluto dentro
         }}

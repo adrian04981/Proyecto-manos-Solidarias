@@ -1,14 +1,23 @@
-import React, { useEffect, useRef } from 'react'; 
+import React, { useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import certificadoFondo from '@/assets/CertificadoManosSolidarias.png';
-import regresar from '@/assets/botón_regresar.png';
-import compartir from '@/assets/compartir.webp';
-import descarga from '@/assets/descargar.webp';
 
 const PreviewCertificate = () => {
   const { name } = useParams();
   const canvasRef = useRef(null);
   const navigate = useNavigate();
+
+  // Convertir la imagen de Supabase a base64
+  const getImageAsBase64 = async (imageUrl) => {
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+    const base64 = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+    return base64;
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -20,31 +29,43 @@ const PreviewCertificate = () => {
     canvas.width = width;
     canvas.height = height;
 
-    // Cargar la imagen de fondo
-    const background = new Image();
-    background.src = certificadoFondo;
-    background.onload = () => {
-      // Dibujar el fondo
-      ctx.drawImage(background, 0, 0, width, height);
+    // URL de la imagen de Supabase
+    const backgroundImageURL = 'https://qyfrfgcefvwpkqtzjjxi.supabase.co/storage/v1/object/public/bsf/CertificadoManosSolidarias.png?t=2024-12-10T16%3A41%3A13.686Z';
 
-      // Configuración del texto
-      ctx.font = '55px Arial';
-      ctx.fillStyle = '#fff';
-      ctx.textAlign = 'center';
+    const loadImage = async () => {
+      const base64Image = await getImageAsBase64(backgroundImageURL);
+      const background = new Image();
+      background.src = base64Image;
+      background.onload = () => {
+        // Dibujar el fondo
+        ctx.drawImage(background, 0, 0, width, height);
 
-      // Dibujar el nombre en mayúsculas
-      const upperCaseName = name.toUpperCase();
-      ctx.fillText(upperCaseName, width / 2, 560);
+        // Configuración del texto
+        ctx.font = '55px Arial';
+        ctx.fillStyle = '#fff';
+        ctx.textAlign = 'center';
+
+        // Dibujar el nombre en mayúsculas
+        const upperCaseName = name.toUpperCase();
+        ctx.fillText(upperCaseName, width / 2, 560);
+      };
     };
+
+    loadImage();
   }, [name]);
 
   // Descargar el certificado como PNG
   const handleDownload = () => {
     const canvas = canvasRef.current;
-    const link = document.createElement('a');
-    link.download = 'certificado.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
+    try {
+      const link = document.createElement('a');
+      link.download = 'certificado.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (error) {
+      console.error('Error al descargar el certificado:', error);
+      alert('No se puede descargar el certificado debido a un problema con la imagen.');
+    }
   };
 
   // Regresar a la página anterior
@@ -78,10 +99,11 @@ const PreviewCertificate = () => {
       minHeight: '100vh',
       textAlign: 'center',
       transform: window.innerWidth <= 768 ? 'translateY(-50px)' : 'translateY(0)',
+      padding: '20px',
     }}>
       {/* Botón para regresar */}
       <img
-        src={regresar}
+        src="https://appbsf.blob.core.windows.net/navidad/botón_regresar.png"
         alt="Regresar"
         style={{
           width: '150px',
@@ -108,7 +130,7 @@ const PreviewCertificate = () => {
       {/* Botones para compartir y descargar */}
       <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
         <img
-          src={compartir}
+          src="https://appbsf.blob.core.windows.net/navidad/compartir.webp"
           alt="Compartir"
           style={{
             width: '150px',
@@ -119,7 +141,7 @@ const PreviewCertificate = () => {
           onClick={handleShare}
         />
         <img
-          src={descarga}
+          src="https://appbsf.blob.core.windows.net/navidad/descargar.webp"
           alt="Descargar"
           style={{
             width: '150px',

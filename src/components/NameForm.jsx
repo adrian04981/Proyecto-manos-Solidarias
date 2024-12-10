@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getDatabase, ref, get, set, onValue } from "firebase/database";
-import bsf from '@/assets/Logo-bsf-en-blanco.webp';
-import texto from '@/assets/texto registra tu donación.png';
-import continuar from '@/assets/Botón continuar.png';
 import { app } from '@/firebase';
 
 const NameForm = () => {
@@ -95,7 +92,7 @@ const NameForm = () => {
   return (
     <div style={{ padding: '20px', textAlign: 'center', color: '#fff' }}>
       <img
-        src={texto}
+        src="https://appbsf.blob.core.windows.net/navidad/texto registra tu donación.png"
         style={{ width: '100%', maxWidth: '400px', height: 'auto' }}
         alt="Texto Registra tu donación"
       />
@@ -125,7 +122,7 @@ const NameForm = () => {
         <button style={{ background: 'none', border: 'none', padding: 0, marginTop: '20px' }}>
           <img
             type="submit"
-            src={continuar}
+            src="https://appbsf.blob.core.windows.net/navidad/Botón continuar.png"
             alt="Botón Continuar"
             style={{ width: '200px', height: 'auto', borderRadius: '8px' }}
           />
@@ -133,7 +130,7 @@ const NameForm = () => {
       </form>
 
       <img
-        src={bsf}
+        src="https://appbsf.blob.core.windows.net/navidad/Logo-bsf-en-blanco.webp"
         alt="BSF Logo"
         style={{ width: '200px', height: 'auto', marginTop: '20px', borderRadius: '8px' }}
       />

@@ -10,7 +10,7 @@ const App = () => {
       style={{
         backgroundImage: window.innerWidth >= 1024 
           ? `url('https://appbsf.blob.core.windows.net/navidad/Fondo_Version_escritorio.webp')` 
-          : `url('/src/assets/Fondo_Version_9x16.webp')`,
+          : `url('https://appbsf.blob.core.windows.net/navidad/Fondo_Version_9x16.webp')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         width: '100vw',

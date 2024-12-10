@@ -1,1 +1,10 @@
-/*    /index.html   200
+import { createRouter, createWebHistory } from 'vue-router';
+
+const router = createRouter({
+  history: createWebHistory('/navidad'), // Indica el basePath
+  routes: [
+    // Definir rutas aquí
+  ],
+});
+
+export default router;

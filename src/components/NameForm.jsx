@@ -4,73 +4,103 @@ import { getDatabase, ref, get, set, onValue } from "firebase/database";
 import bsf from '@/assets/Logo-bsf-en-blanco.webp';
 import texto from '@/assets/texto registra tu donación.png';
 import continuar from '@/assets/Botón continuar.png';
-
-// Importa la configuración de Firebase
 import { app } from '@/firebase';
 
 const NameForm = () => {
-  const [name, setName] = useState(''); // Almacena el nombre ingresado por el usuario
-  const [counter, setCounter] = useState(0); // Estado para el valor del contador
+  const [name, setName] = useState('');
+  const [selectedOptions, setSelectedOptions] = useState({
+    viveres: false,
+    juguetes: false,
+  });
+  const [counters, setCounters] = useState({
+    viveres: 0,
+    juguetes: 0,
+  });
+
   const navigate = useNavigate();
-  const database = getDatabase(app); // Obtén la instancia de Realtime Database
+  const database = getDatabase(app);
 
-  // Listener para el contador en Firebase
   useEffect(() => {
-    const counterRef = ref(database, 'counter'); // Referencia al nodo 'counter' en la base de datos
+    const fetchCounters = () => {
+      const updates = ['viveres', 'juguetes'].map((type) => {
+        const counterRef = ref(database, `contador_${type}`);
+        return onValue(counterRef, (snapshot) => {
+          setCounters((prev) => ({
+            ...prev,
+            [type]: snapshot.exists() ? snapshot.val() : 0,
+          }));
+        });
+      });
 
-    // Escucha los cambios en el valor del contador
-    const unsubscribe = onValue(counterRef, (snapshot) => {
-      if (snapshot.exists()) {
-        setCounter(snapshot.val()); // Actualiza el estado local con el valor del contador
-      } else {
-        setCounter(0); // Si no existe, inicializa en 0
-      }
-    });
+      return () => updates.forEach((unsubscribe) => unsubscribe());
+    };
 
-    // Limpia el listener cuando el componente se desmonte
-    return () => unsubscribe();
+    fetchCounters();
   }, [database]);
 
-  // Incrementa el contador en Firebase
-  const incrementCounter = async () => {
-    const counterRef = ref(database, 'counter'); // Referencia al nodo 'counter'
+  const toggleSelection = (type) => {
+    setSelectedOptions((prev) => ({ ...prev, [type]: !prev[type] }));
+  };
+
+  const incrementCounter = async (type) => {
+    const counterRef = ref(database, `contador_${type}`);
     try {
       const snapshot = await get(counterRef);
       const currentCount = snapshot.exists() ? snapshot.val() : 0;
-
-      // Actualiza el contador incrementándolo en 1
       await set(counterRef, currentCount + 1);
-      console.log(`El contador se ha actualizado a: ${currentCount + 1}`);
     } catch (error) {
-      console.error("Error al actualizar el contador:", error);
+      console.error(`Error al actualizar ${type}:`, error);
     }
   };
 
-  // Maneja el envío del formulario
-  const handlePreview = async (e) => {
+  const handleContinue = async (e) => {
     e.preventDefault();
-    if (name.trim()) {
-      await incrementCounter(); // Incrementa el contador antes de la navegación
-      navigate(`/preview/${name}`); // Navega a la ruta con el nombre ingresado
+    const selectedKeys = Object.keys(selectedOptions).filter((key) => selectedOptions[key]);
+
+    if (selectedKeys.length === 0) {
+      alert('Debe seleccionar al menos una opción (Víveres o Juguetes) para continuar.');
+      return;
     }
+
+    await Promise.all(selectedKeys.map(incrementCounter));
+    navigate(`/preview/${name}`);
   };
+
+  const renderOption = (type, color) => (
+    <div
+      onClick={() => toggleSelection(type)}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        cursor: 'pointer',
+        padding: '20px',
+        border: selectedOptions[type] ? `2px solid ${color}` : '2px solid #ccc',
+        borderRadius: '10px',
+        width: '120px',
+        backgroundColor: selectedOptions[type] ? `${color}20` : '#f9f9f9', // 20 for transparency
+        transition: '0.3s ease',
+      }}
+    >
+      <input
+        type="checkbox"
+        checked={selectedOptions[type]}
+        onChange={() => toggleSelection(type)}
+        style={{ display: 'none' }}
+      />
+      <span style={{ fontSize: '20px', fontWeight: 'bold', color }}>{type.charAt(0).toUpperCase() + type.slice(1)}</span>
+    </div>
+  );
 
   return (
     <div style={{ padding: '20px', textAlign: 'center', color: '#fff' }}>
-      {/* Imagen superior */}
       <img
         src={texto}
         style={{ width: '100%', maxWidth: '400px', height: 'auto' }}
-        alt="Texto Crea tu tarjeta de Navidad"
+        alt="Texto Registra tu donación"
       />
-      
-      {/* Mostrar el contador */}
-      <p style={{ fontSize: '18px', margin: '10px 0' }}>
-        El botón ha sido presionado <strong>{counter}</strong> veces.
-      </p>
 
-      {/* Formulario */}
-      <form onSubmit={handlePreview}>
+      <form onSubmit={handleContinue}>
         <input
           type="text"
           placeholder="Escribe tu nombre"
@@ -86,10 +116,13 @@ const NameForm = () => {
             maxWidth: '300px',
           }}
         />
-        <div style={{ padding: '20px' }} />
-        
-        {/* Botón continuar */}
-        <button style={{ background: 'none', border: 'none', padding: 0 }}>
+
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
+          {renderOption('viveres', '#4CAF50')}
+          {renderOption('juguetes', '#FF9800')}
+        </div>
+
+        <button style={{ background: 'none', border: 'none', padding: 0, marginTop: '20px' }}>
           <img
             type="submit"
             src={continuar}
@@ -99,7 +132,6 @@ const NameForm = () => {
         </button>
       </form>
 
-      {/* Imagen inferior */}
       <img
         src={bsf}
         alt="BSF Logo"

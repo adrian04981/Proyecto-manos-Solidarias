@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react'; 
 import { useParams, useNavigate } from 'react-router-dom';
-import certificadoFondo from '@/assets/CertificadoManosSolidarias.png'; // Ruta del fondo
-import regresar from '@/assets/botón_regresar.png'; // Ruta para botón de regresar
-import compartir from '@/assets/compartir.webp'; // Ruta para botón de compartir
-import descarga from '@/assets/descargar.webp'; // Ruta para botón de descarga
+import certificadoFondo from '@/assets/CertificadoManosSolidarias.png';
+import regresar from '@/assets/botón_regresar.png';
+import compartir from '@/assets/compartir.webp';
+import descarga from '@/assets/descargar.webp';
 
 const PreviewCertificate = () => {
   const { name } = useParams();
@@ -14,9 +14,9 @@ const PreviewCertificate = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
 
-    // Configuración del tamaño A4 horizontal (en píxeles a 300 dpi)
-    const width = 2480; // Ancho en píxeles
-    const height = 3508; // Alto en píxeles
+    // Configuración del tamaño del canvas
+    const width = 620;
+    const height = 877;
     canvas.width = width;
     canvas.height = height;
 
@@ -24,20 +24,21 @@ const PreviewCertificate = () => {
     const background = new Image();
     background.src = certificadoFondo;
     background.onload = () => {
-      // Dibujar la imagen de fondo
+      // Dibujar el fondo
       ctx.drawImage(background, 0, 0, width, height);
 
-      // Texto del certificado
-      ctx.font = '200px Arial';
+      // Configuración del texto
+      ctx.font = '55px Arial';
       ctx.fillStyle = '#fff';
       ctx.textAlign = 'center';
 
-      // Nombre
-      ctx.fillText(name, width / 2, 2230);
+      // Dibujar el nombre en mayúsculas
+      const upperCaseName = name.toUpperCase();
+      ctx.fillText(upperCaseName, width / 2, 560);
     };
   }, [name]);
 
-  // Función para descargar la imagen como PNG
+  // Descargar el certificado como PNG
   const handleDownload = () => {
     const canvas = canvasRef.current;
     const link = document.createElement('a');
@@ -46,18 +47,22 @@ const PreviewCertificate = () => {
     link.click();
   };
 
-  // Función para regresar a la página anterior
+  // Regresar a la página anterior
   const handleBack = () => {
-    navigate(-1); // Regresa a la página anterior
+    navigate(-1);
   };
 
-  // Función para compartir en redes sociales
-  const handleShare = () => {
+  // Compartir en redes sociales
+  const handleShare = async () => {
+    const canvas = canvasRef.current;
+    const imageBlob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+
     if (navigator.share) {
+      const file = new File([imageBlob], 'certificado.png', { type: 'image/png' });
       navigator.share({
         title: 'Certificado',
-        text: `¡Mira el certificado que he recibido!`,
-        url: window.location.href, // Comparte la URL actual
+        text: '¡Mira el certificado que he recibido!',
+        files: [file],
       }).catch((error) => console.error('Error al compartir:', error));
     } else {
       alert('La función de compartir no está soportada en este navegador.');
@@ -72,9 +77,9 @@ const PreviewCertificate = () => {
       alignItems: 'center',
       minHeight: '100vh',
       textAlign: 'center',
-      transform: window.innerWidth <= 768 ? 'translateY(-50px)' : 'translateY(0)', // Mover todo 70px más arriba del centro en móviles
+      transform: window.innerWidth <= 768 ? 'translateY(-50px)' : 'translateY(0)',
     }}>
-      {/* Botón de regresar */}
+      {/* Botón para regresar */}
       <img
         src={regresar}
         alt="Regresar"
@@ -87,6 +92,7 @@ const PreviewCertificate = () => {
         }}
         onClick={handleBack}
       />
+
       {/* Canvas para el certificado */}
       <canvas
         ref={canvasRef}
@@ -95,10 +101,11 @@ const PreviewCertificate = () => {
           borderRadius: '8px',
           marginBottom: '20px',
           width: '380px',
-          height: '480px', // Proporción A4
+          height: '480px',
         }}
       />
-      {/* Botones de acción */}
+
+      {/* Botones para compartir y descargar */}
       <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
         <img
           src={compartir}
@@ -120,7 +127,7 @@ const PreviewCertificate = () => {
             borderRadius: '8px',
             cursor: 'pointer',
           }}
-          onClick={handleDownload} // Corrección: llama a handleDownload
+          onClick={handleDownload}
         />
       </div>
     </div>

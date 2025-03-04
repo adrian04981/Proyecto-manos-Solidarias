@@ -7,7 +7,7 @@ const NameForm = () => {
 
   const handleContinue = (e) => {
     e.preventDefault();
-    navigate(`/voluntariado/preview/${name}`);
+    navigate(`/donacion/preview/${name}`);
   };
 
   return (

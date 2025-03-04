@@ -30,7 +30,7 @@ const PreviewCertificate = () => {
     canvas.height = height;
 
     // URL de la imagen de Supabase
-    const backgroundImageURL = 'https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/voluntariado/Certificado.png';
+    const backgroundImageURL = 'https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/donacion/Manos%20Solidarias%20-%20Inicio%20de%20clases%20-%20constancia%20de%20colaboracion.png';
 
     const loadImage = async () => {
       const base64Image = await getImageAsBase64(backgroundImageURL);
@@ -85,7 +85,7 @@ const PreviewCertificate = () => {
     const canvas = canvasRef.current;
     try {
       const link = document.createElement('a');
-      link.download = 'certificado.png';
+      link.download = `certificado_colaboracion_${name.replace(/ /g, '_')}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
     } catch (error) {

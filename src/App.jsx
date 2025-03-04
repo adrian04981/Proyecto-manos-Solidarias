@@ -1,24 +1,34 @@
 import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import NameFormVoluntariado from './components/voluntariado/NameForm';
 import PreviewVoluntariado from './components/voluntariado/Preview';
 import NameFormDonacion from './components/donacion/NameForm';
 import PreviewDonacion from './components/donacion/Preview';
 
 const App = () => {
+  const location = useLocation();
+  
   useEffect(() => {
     // Remove margins and padding from body
     document.body.style.margin = '0';
     document.body.style.padding = '0';
   }, []);
 
+  const getBackgroundImage = () => {
+    const path = location.pathname.toLowerCase();
+    if (path.includes('voluntariado')) {
+      return 'https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/voluntariado/Fondo.png';
+    } else if (path.includes('donacion')) {
+      return 'https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/donacion/Wallpaper.png';
+    }
+    return ''; // default background
+  };
+
   return (
     <div
       className="app-background"
       style={{
-        backgroundImage: window.innerWidth >= 1024 
-          ? `url('https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/voluntariado/Fondo.png')` 
-          : `url('https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/voluntariado/Fondo.png')`,
+        backgroundImage: `url('${getBackgroundImage()}')`,
         backgroundSize: '100% 100%', // Changed to ensure full coverage
         backgroundRepeat: 'no-repeat', // Prevent background repetition
         backgroundPosition: 'center',
@@ -38,8 +48,10 @@ const App = () => {
         <Routes>
           <Route path="/voluntariado" element={<NameFormVoluntariado />} />
           <Route path="/voluntariado/preview/:name" element={<PreviewVoluntariado />} />
-          <Route path="/Donacion" element={<NameFormVoluntariado />} />
-          <Route path="/Donacion/preview/:name" element={<PreviewVoluntariado />} />
+          <Route path="/Donacion" element={<NameFormDonacion />} />
+          <Route path="/donacion" element={<NameFormDonacion />} />
+          <Route path="/Donacion/preview/:name" element={<PreviewDonacion />} />
+          <Route path="/donacion/preview/:name" element={<PreviewDonacion />} />
         </Routes>
       </div>
       <img

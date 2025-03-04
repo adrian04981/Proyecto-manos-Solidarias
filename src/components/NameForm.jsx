@@ -35,7 +35,7 @@ const NameForm = () => {
           }}
         />
 
-        <button style={{ background: 'none', border: 'none', padding: 0, marginTop: '20px' }}>
+        <button style={{ background: 'none', border: 'none', padding: 0, marginTop: '20px', cursor: 'pointer' }}>
           <img
             type="submit"
             src="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/voluntariado/Boton%20Continuar.png"

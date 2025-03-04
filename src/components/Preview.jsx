@@ -39,15 +39,41 @@ const PreviewCertificate = () => {
       background.onload = () => {
         // Dibujar el fondo
         ctx.drawImage(background, 0, 0, width, height);
-
         // Configuración del texto
-        ctx.font = '55px Arial';
-        ctx.fillStyle = '#fff';
+        ctx.font = '30px Montserrat';
+        ctx.fillStyle = '#000';
         ctx.textAlign = 'center';
 
         // Dibujar el nombre en mayúsculas
         const upperCaseName = name.toUpperCase();
-        ctx.fillText(upperCaseName, width / 2, 560);
+        const maxWidth = 500; // Ancho máximo para el texto
+        
+        // Dividir el nombre en palabras
+        const words = upperCaseName.split(' ');
+        let lines = [];
+        let currentLine = '';
+        
+        // Agrupar palabras en líneas
+        words.forEach(word => {
+            const testLine = currentLine + (currentLine ? ' ' : '') + word;
+            const metrics = ctx.measureText(testLine);
+            if (metrics.width > maxWidth && currentLine !== '') {
+          lines.push(currentLine);
+          currentLine = word;
+            } else {
+          currentLine = testLine;
+            }
+        });
+        if (currentLine) {
+            lines.push(currentLine);
+        }
+
+        // Dibujar las líneas de texto
+        const lineHeight = 45; // Reducido de 65 a 45 para menos espacio entre líneas
+        const startY = 360 - ((lines.length - 1) * lineHeight / 2);
+        lines.forEach((line, index) => {
+            ctx.fillText(line, width / 2, startY + (index * lineHeight));
+        });
       };
     };
 

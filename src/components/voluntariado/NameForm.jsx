@@ -1,13 +1,41 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { database } from '../../firebase';
+import { ref, push, serverTimestamp, get, set } from 'firebase/database';
 
 const NameForm = () => {
   const [name, setName] = useState('');
   const navigate = useNavigate();
 
-  const handleContinue = (e) => {
+  const handleContinue = async (e) => {
     e.preventDefault();
-    navigate(`/voluntariado/preview/${name}`);
+    if (name.trim()) {
+      try {
+        // Referencia al contador
+        const counterRef = ref(database, 'registro_voluntarios/contador');
+        
+        // Obtener el valor actual del contador
+        const counterSnapshot = await get(counterRef);
+        const currentCount = counterSnapshot.exists() ? counterSnapshot.val() : 0;
+        
+        // Incrementar el contador
+        await set(counterRef, currentCount + 1);
+        
+        // Guardar el nuevo registro
+        const registrosRef = ref(database, 'registro_voluntarios/personas');
+        await push(registrosRef, {
+          nombre: name,
+          timestamp: serverTimestamp(),
+          numeroRegistro: currentCount + 1
+        });
+
+        navigate(`/voluntariado/preview/${name}`);
+      } catch (error) {
+        console.error("Error al guardar en la base de datos:", error);
+        // Continuar con la navegación incluso si hay error en el registro
+        navigate(`/voluntariado/preview/${name}`);
+      }
+    }
   };
 
   return (

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { database } from '../../firebase';
 import { ref, onValue, remove, update } from 'firebase/database';
 import Loading from '../Loading';
+import { useNavigate } from 'react-router-dom';
 
 const MonitorDonaciones = () => {
+  const navigate = useNavigate();
   const [registros, setRegistros] = useState([]);
   const [stats, setStats] = useState({
     totalDonaciones: 0,
@@ -90,6 +92,11 @@ const MonitorDonaciones = () => {
     setEditModalOpen(true);
   };
 
+  const handleGenerateCertificate = (nombre) => {
+    // Abrir en nueva pestaña
+    window.open(`/donacion/preview/${nombre}`, '_blank');
+  };
+
   return (
     <div style={containerStyle}>
       {isLoading && <Loading />}
@@ -141,14 +148,23 @@ const MonitorDonaciones = () => {
                 <td style={tableCellStyle}>{registro.fecha}</td>
                 <td style={actionsCellStyle}>
                   <button
+                    onClick={() => handleGenerateCertificate(registro.nombre)}
+                    style={certificateButtonStyle}
+                    title="Ver Certificado en nueva pestaña"
+                  >
+                    📜
+                  </button>
+                  <button
                     onClick={() => openEditModal(registro)}
                     style={editButtonStyle}
+                    title="Editar"
                   >
                     ✏️
                   </button>
                   <button
                     onClick={() => openDeleteModal(registro)}
                     style={deleteButtonStyle}
+                    title="Eliminar"
                   >
                     🗑️
                   </button>
@@ -386,6 +402,13 @@ const checkboxLabelStyle = {
   display: 'flex',
   alignItems: 'center',
   gap: '8px'
+};
+
+const certificateButtonStyle = {
+  ...buttonBaseStyle,
+  backgroundColor: '#4CAF50',
+  fontSize: '1.2rem',
+  padding: '8px 12px'
 };
 
 export default MonitorDonaciones;

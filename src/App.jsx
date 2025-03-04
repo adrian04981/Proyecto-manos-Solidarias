@@ -32,11 +32,11 @@ const App = () => {
       className="app-background"
       style={{
         backgroundImage: `url('${getBackgroundImage()}')`,
-        backgroundSize: '100% 100%', // Changed to ensure full coverage
-        backgroundRepeat: 'no-repeat', // Prevent background repetition
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        width: '100%', // Changed from 100vw
-        minHeight: '100vh',
+        width: '100%',
+        height: '100vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -44,10 +44,17 @@ const App = () => {
         position: 'relative',
         margin: 0,
         padding: 0,
-        overflow: 'hidden',
+        overflow: 'auto'
       }}
     >
-      <div style={{ flex: 1, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ 
+        flex: 1, 
+        width: '100%', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        padding: '20px 0'
+      }}>
         <Routes>
           <Route path="/voluntariado" element={<NameFormVoluntariado />} />
           <Route path="/voluntariado/preview/:name" element={<PreviewVoluntariado />} />
@@ -61,16 +68,15 @@ const App = () => {
         alt="Footer Ribbon"
         style={{
           width: '100%',
-          height: 'auto', // Added to maintain aspect ratio
-          maxWidth: '100%', // Ensure image doesn't overflow
-          position: 'relative', // Changed from flex
+          height: 'auto',
+          position: 'sticky',
           bottom: 0,
           left: 0,
           right: 0,
           margin: 0,
           padding: 0,
           display: 'block',
-          objectFit: 'contain' // Changed from cover to maintain aspect ratio
+          objectFit: 'cover'
         }}
       />
     </div>

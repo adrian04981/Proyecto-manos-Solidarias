@@ -73,7 +73,8 @@ const NameForm = () => {
         border: 'none',
         background: 'none',
         cursor: 'pointer',
-        width: '300px',
+        width: '100%',
+        maxWidth: '300px',
         position: 'relative',
         transition: 'all 0.3s ease'
       }}
@@ -92,19 +93,48 @@ const NameForm = () => {
   );
 
   return (
-    <div style={{ padding: '20px', marginTop: '10px', textAlign: 'center', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '30px' }}>
+    <div style={{ 
+      padding: '20px',
+      marginTop: '10px',
+      textAlign: 'center',
+      color: '#fff',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: '30px',
+      width: '100%',
+      maxWidth: '1200px',
+      margin: '0 auto'
+    }}>
       <img
         src="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/voluntariado/Titular%20de%20la%20campana%20-Logo.png"
-        style={{ width: '100%', maxWidth: '600px', height: 'auto' }}
+        style={{ 
+          width: '100%',
+          maxWidth: '600px',
+          height: 'auto',
+          padding: '0 15px'
+        }}
         alt="Header Logo"
       />
       <img
         src="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/voluntariado/Titular.png"
-        style={{ width: '100%', maxWidth: '400px', height: 'auto' }}
+        style={{ 
+          width: '90%',
+          maxWidth: '400px',
+          height: 'auto',
+          padding: '0 15px'
+        }}
         alt="Texto Registra tu donación"
       />
 
-      <form onSubmit={handleContinue} style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+      <form onSubmit={handleContinue} style={{ 
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '20px',
+        padding: '0 15px'
+      }}>
         <input
           type="text"
           placeholder="Escribe tu nombre"
@@ -112,7 +142,7 @@ const NameForm = () => {
           onChange={(e) => setName(e.target.value)}
           style={{
             padding: '10px',
-            fontSize: '16px',
+            fontSize: 'clamp(14px, 2vw, 16px)',
             borderRadius: '8px',
             textAlign: 'center',
             opacity: '0.7',
@@ -122,14 +152,20 @@ const NameForm = () => {
           required
         />
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '20px', width: '100%', maxWidth: '800px' }}>
-          
-          {/* Contenedor para los dos botones superiores */}
+        <div style={{ 
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
+          marginTop: '20px',
+          width: '100%',
+          maxWidth: '1000px'
+        }}>
           <div style={{ 
-            display: 'flex', 
-            justifyContent: 'center', 
-            gap: '20px',
-            flexWrap: 'wrap'
+            display: 'flex',
+            justifyContent: 'center',
+            gap: 'clamp(10px, 3vw, 20px)',
+            flexWrap: 'wrap',
+            width: '100%'
           }}>
             <DonationTypeButton 
               type="equiposTecnologicos" 
@@ -143,10 +179,10 @@ const NameForm = () => {
             />
           </div>
 
-          {/* Contenedor para el botón inferior */}
           <div style={{ 
-            display: 'flex', 
-            justifyContent: 'center'
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%'
           }}>
             <DonationTypeButton 
               type="mobiliarioEscolar" 
@@ -156,11 +192,23 @@ const NameForm = () => {
           </div>
         </div>
 
-        <button style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', marginTop: '20px' }}>
+        <button style={{ 
+          background: 'none',
+          border: 'none',
+          padding: 0,
+          cursor: 'pointer',
+          marginTop: '20px',
+          width: '100%',
+          maxWidth: '200px'
+        }}>
           <img
             src="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/voluntariado/Boton%20Continuar.png"
             alt="Botón Continuar"
-            style={{ width: '200px', height: 'auto', borderRadius: '8px' }}
+            style={{ 
+              width: '100%',
+              height: 'auto',
+              borderRadius: '8px'
+            }}
           />
         </button>
       </form>
@@ -168,7 +216,13 @@ const NameForm = () => {
       <img
         src="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/voluntariado/Pie%20de%20pagina.png"
         alt="BSF Logo"
-        style={{ width: '500px', height: 'auto', borderRadius: '8px' }}
+        style={{ 
+          width: '100%',
+          maxWidth: '500px',
+          height: 'auto',
+          borderRadius: '8px',
+          padding: '0 15px'
+        }}
       />
     </div>
   );

@@ -122,23 +122,38 @@ const NameForm = () => {
           required
         />
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '20px' }}>
-          <h3 style={{ color: 'black' }}>Tipo de Donación </h3>
-          <DonationTypeButton 
-            type="equiposTecnologicos" 
-            label="Equipos Tecnológicos"
-            imageUrl="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/donacion/equipos.png"
-          />
-          <DonationTypeButton 
-            type="materialesConstruccion" 
-            label="Materiales de Construcción y Mantenimiento"
-            imageUrl="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/donacion/Materiales.png"
-          />
-          <DonationTypeButton 
-            type="mobiliarioEscolar" 
-            label="Mobiliario Escolar"
-            imageUrl="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/donacion/mobiliarios.png"
-          />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '20px', width: '100%', maxWidth: '800px' }}>
+          
+          {/* Contenedor para los dos botones superiores */}
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            gap: '20px',
+            flexWrap: 'wrap'
+          }}>
+            <DonationTypeButton 
+              type="equiposTecnologicos" 
+              label="Equipos Tecnológicos"
+              imageUrl="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/donacion/equipos.png"
+            />
+            <DonationTypeButton 
+              type="materialesConstruccion" 
+              label="Materiales de Construcción y Mantenimiento"
+              imageUrl="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/donacion/Materiales.png"
+            />
+          </div>
+
+          {/* Contenedor para el botón inferior */}
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'center'
+          }}>
+            <DonationTypeButton 
+              type="mobiliarioEscolar" 
+              label="Mobiliario Escolar"
+              imageUrl="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/donacion/mobiliarios.png"
+            />
+          </div>
         </div>
 
         <button style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', marginTop: '20px' }}>

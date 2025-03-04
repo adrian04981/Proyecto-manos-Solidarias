@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { database } from '../../firebase';
-import { ref, onValue } from 'firebase/database';
+import { ref, onValue, remove, update } from 'firebase/database';
+import Loading from '../Loading';
 
 const MonitorDonaciones = () => {
   const [registros, setRegistros] = useState([]);
@@ -10,10 +11,16 @@ const MonitorDonaciones = () => {
     materialesConstruccion: 0,
     mobiliarioEscolar: 0
   });
+  const [isLoading, setIsLoading] = useState(true);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedDonation, setSelectedDonation] = useState(null);
+  const [editData, setEditData] = useState(null);
 
   useEffect(() => {
+    setIsLoading(true);
     const registrosRef = ref(database, 'registro_donaciones');
-    onValue(registrosRef, (snapshot) => {
+    const unsubscribe = onValue(registrosRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
         const registrosArray = Object.entries(data).map(([key, value]) => ({
@@ -35,11 +42,57 @@ const MonitorDonaciones = () => {
         };
         setStats(newStats);
       }
+      setIsLoading(false);
     });
+
+    return () => unsubscribe();
   }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      await remove(ref(database, `registro_donaciones/${id}`));
+      setDeleteModalOpen(false);
+      setSelectedDonation(null);
+    } catch (error) {
+      alert('Error al eliminar la donación');
+      console.error(error);
+    }
+  };
+
+  const handleEdit = async () => {
+    if (!editData || !selectedDonation) return;
+    
+    try {
+      await update(ref(database, `registro_donaciones/${selectedDonation.id}`), {
+        ...selectedDonation,
+        ...editData,
+      });
+      setEditModalOpen(false);
+      setSelectedDonation(null);
+      setEditData(null);
+    } catch (error) {
+      alert('Error al actualizar la donación');
+      console.error(error);
+    }
+  };
+
+  const openDeleteModal = (donation) => {
+    setSelectedDonation(donation);
+    setDeleteModalOpen(true);
+  };
+
+  const openEditModal = (donation) => {
+    setSelectedDonation(donation);
+    setEditData({
+      nombre: donation.nombre,
+      tipos: { ...donation.tipos }
+    });
+    setEditModalOpen(true);
+  };
 
   return (
     <div style={containerStyle}>
+      {isLoading && <Loading />}
       <h1 style={titleStyle}>Monitor de Donaciones</h1>
       
       <div style={statsGridStyle}>
@@ -68,6 +121,7 @@ const MonitorDonaciones = () => {
               <th style={tableHeaderStyle}>Nombre</th>
               <th style={tableHeaderStyle}>Tipos de Donación</th>
               <th style={tableHeaderStyle}>Fecha</th>
+              <th style={tableHeaderStyle}>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -85,11 +139,101 @@ const MonitorDonaciones = () => {
                     .join(', ')}
                 </td>
                 <td style={tableCellStyle}>{registro.fecha}</td>
+                <td style={actionsCellStyle}>
+                  <button
+                    onClick={() => openEditModal(registro)}
+                    style={editButtonStyle}
+                  >
+                    ✏️
+                  </button>
+                  <button
+                    onClick={() => openDeleteModal(registro)}
+                    style={deleteButtonStyle}
+                  >
+                    🗑️
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {deleteModalOpen && (
+        <div style={modalOverlayStyle}>
+          <div style={modalStyle}>
+            <h3 style={modalTitleStyle}>Confirmar Eliminación</h3>
+            <p>¿Está seguro que desea eliminar la donación de {selectedDonation?.nombre}?</p>
+            <div style={modalButtonsStyle}>
+              <button
+                onClick={() => setDeleteModalOpen(false)}
+                style={cancelButtonStyle}
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={() => handleDelete(selectedDonation.id)}
+                style={confirmDeleteButtonStyle}
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {editModalOpen && (
+        <div style={modalOverlayStyle}>
+          <div style={modalStyle}>
+            <h3 style={modalTitleStyle}>Editar Donación</h3>
+            <form onSubmit={(e) => { e.preventDefault(); handleEdit(); }}>
+              <input
+                type="text"
+                value={editData.nombre}
+                onChange={(e) => setEditData({ ...editData, nombre: e.target.value })}
+                style={inputStyle}
+              />
+              <div style={checkboxGroupStyle}>
+                {Object.entries(editData.tipos).map(([key, value]) => (
+                  <label key={key} style={checkboxLabelStyle}>
+                    <input
+                      type="checkbox"
+                      checked={value}
+                      onChange={() => setEditData({
+                        ...editData,
+                        tipos: {
+                          ...editData.tipos,
+                          [key]: !value
+                        }
+                      })}
+                    />
+                    {key === 'equiposTecnologicos' ? 'Equipos Tecnológicos' :
+                     key === 'materialesConstruccion' ? 'Materiales de Construcción' :
+                     'Mobiliario Escolar'}
+                  </label>
+                ))}
+              </div>
+              <div style={modalButtonsStyle}>
+                <button
+                  type="button"
+                  onClick={() => setEditModalOpen(false)}
+                  style={cancelButtonStyle}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  style={confirmEditButtonStyle}
+                >
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -145,6 +289,103 @@ const tableHeaderStyle = {
 const tableCellStyle = {
   padding: '16px',
   borderBottom: '1px solid #eee'
+};
+
+const actionsCellStyle = {
+  display: 'flex',
+  gap: '10px',
+  padding: '16px'
+};
+
+const buttonBaseStyle = {
+  padding: '8px',
+  borderRadius: '4px',
+  cursor: 'pointer',
+  border: 'none',
+  fontSize: '1rem'
+};
+
+const editButtonStyle = {
+  ...buttonBaseStyle,
+  backgroundColor: '#ffd700',
+};
+
+const deleteButtonStyle = {
+  ...buttonBaseStyle,
+  backgroundColor: '#ff6b6b',
+};
+
+const modalOverlayStyle = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  zIndex: 1000
+};
+
+const modalStyle = {
+  backgroundColor: 'white',
+  padding: '30px',
+  borderRadius: '8px',
+  width: '90%',
+  maxWidth: '500px'
+};
+
+const modalTitleStyle = {
+  margin: '0 0 20px 0',
+  color: '#333'
+};
+
+const modalButtonsStyle = {
+  display: 'flex',
+  justifyContent: 'flex-end',
+  gap: '10px',
+  marginTop: '20px'
+};
+
+const confirmDeleteButtonStyle = {
+  ...buttonBaseStyle,
+  backgroundColor: '#ff6b6b',
+  color: 'white',
+  padding: '8px 16px'
+};
+
+const confirmEditButtonStyle = {
+  ...buttonBaseStyle,
+  backgroundColor: '#4CAF50',
+  color: 'white',
+  padding: '8px 16px'
+};
+
+const cancelButtonStyle = {
+  ...buttonBaseStyle,
+  backgroundColor: '#f0f0f0',
+  padding: '8px 16px'
+};
+
+const inputStyle = {
+  width: '100%',
+  padding: '8px',
+  marginBottom: '16px',
+  borderRadius: '4px',
+  border: '1px solid #ddd'
+};
+
+const checkboxGroupStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '10px'
+};
+
+const checkboxLabelStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px'
 };
 
 export default MonitorDonaciones;

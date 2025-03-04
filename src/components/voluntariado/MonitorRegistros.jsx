@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { database } from '../../firebase';
 import { ref, onValue } from 'firebase/database';
+import Loading from '../Loading';
 
 const MonitorRegistros = () => {
   const [registros, setRegistros] = useState([]);
   const [contador, setContador] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Escuchar cambios en el contador
+    setIsLoading(true);
     const counterRef = ref(database, 'registro_voluntarios/contador');
-    onValue(counterRef, (snapshot) => {
+    const registrosRef = ref(database, 'registro_voluntarios/personas');
+
+    const unsubscribeCounter = onValue(counterRef, (snapshot) => {
       setContador(snapshot.val() || 0);
     });
 
-    // Escuchar cambios en los registros
-    const registrosRef = ref(database, 'registro_voluntarios/personas');
-    onValue(registrosRef, (snapshot) => {
+    const unsubscribeRegistros = onValue(registrosRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
         const registrosArray = Object.entries(data).map(([key, value]) => ({
@@ -23,15 +25,21 @@ const MonitorRegistros = () => {
           ...value,
           timestamp: value.timestamp ? new Date(value.timestamp).toLocaleString() : 'Sin fecha'
         }));
-        // Ordenar por número de registro (más reciente primero)
         registrosArray.sort((a, b) => b.numeroRegistro - a.numeroRegistro);
         setRegistros(registrosArray);
       }
+      setIsLoading(false);
     });
+
+    return () => {
+      unsubscribeCounter();
+      unsubscribeRegistros();
+    };
   }, []);
 
   return (
     <div style={containerStyle}>
+      {isLoading && <Loading />}
       <h1 style={titleStyle}><strong>Monitor de Voluntariado</strong></h1>
       <div style={counterContainerStyle}>
         <h2 style={counterStyle}>

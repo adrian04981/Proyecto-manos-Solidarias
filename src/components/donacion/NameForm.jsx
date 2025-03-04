@@ -64,22 +64,30 @@ const NameForm = () => {
     navigate(`/donacion/preview/${name}`);
   };
 
-  const DonationTypeButton = ({ type, label }) => (
+  const DonationTypeButton = ({ type, label, imageUrl }) => (
     <button
       onClick={() => handleDonationTypeChange(type)}
       style={{
-        padding: '10px 20px',
+        padding: '0',
         margin: '5px',
-        borderRadius: '8px',
-        border: '2px solid #fff',
-        background: donationTypes[type] ? '#4CAF50' : '#666',
-        color: 'white',
+        border: 'none',
+        background: 'none',
         cursor: 'pointer',
         width: '300px',
+        position: 'relative',
         transition: 'all 0.3s ease'
       }}
     >
-      {label}
+      <img
+        src={imageUrl}
+        alt={label}
+        style={{
+          width: '100%',
+          height: 'auto',
+          filter: donationTypes[type] ? 'brightness(0.7)' : 'none',
+          transition: 'filter 0.3s ease'
+        }}
+      />
     </button>
   );
 
@@ -118,15 +126,18 @@ const NameForm = () => {
           <h3 style={{ color: 'black' }}>Tipo de Donación </h3>
           <DonationTypeButton 
             type="equiposTecnologicos" 
-            label="Equipos Tecnológicos" 
+            label="Equipos Tecnológicos"
+            imageUrl="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/donacion/equipos.png"
           />
           <DonationTypeButton 
             type="materialesConstruccion" 
-            label="Materiales de Construcción y Mantenimiento" 
+            label="Materiales de Construcción y Mantenimiento"
+            imageUrl="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/donacion/Materiales.png"
           />
           <DonationTypeButton 
             type="mobiliarioEscolar" 
-            label="Mobiliario Escolar" 
+            label="Mobiliario Escolar"
+            imageUrl="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/donacion/mobiliarios.png"
           />
         </div>
 

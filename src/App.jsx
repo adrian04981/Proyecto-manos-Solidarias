@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import NameForm from './components/NameForm';
-import Preview from './components/Preview';
+import NameFormVoluntariado from './components/voluntariado/NameForm';
+import PreviewVoluntariado from './components/voluntariado/Preview';
+import NameFormDonacion from './components/donacion/NameForm';
+import PreviewDonacion from './components/donacion/Preview';
 
 const App = () => {
   useEffect(() => {
@@ -34,8 +36,10 @@ const App = () => {
     >
       <div style={{ flex: 1, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Routes>
-          <Route path="/" element={<NameForm />} />
-          <Route path="/preview/:name" element={<Preview />} />
+          <Route path="/voluntariado" element={<NameFormVoluntariado />} />
+          <Route path="/voluntariado/preview/:name" element={<PreviewVoluntariado />} />
+          <Route path="/Donacion" element={<NameFormVoluntariado />} />
+          <Route path="/Donacion/preview/:name" element={<PreviewVoluntariado />} />
         </Routes>
       </div>
       <img

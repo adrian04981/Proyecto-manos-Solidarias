@@ -9,8 +9,8 @@ const App = () => {
       className="app-background"
       style={{
         backgroundImage: window.innerWidth >= 1024 
-          ? `url('https://appbsf.blob.core.windows.net/navidad/Fondo_Version_escritorio.webp')` 
-          : `url('https://appbsf.blob.core.windows.net/navidad/Fondo_Version_9x16.webp')`,
+          ? `url('https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/voluntariado/Fondo.png')` 
+          : `url('https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/voluntariado/Fondo.png')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         width: '100vw',

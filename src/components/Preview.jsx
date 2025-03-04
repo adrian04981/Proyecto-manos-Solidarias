@@ -30,7 +30,7 @@ const PreviewCertificate = () => {
     canvas.height = height;
 
     // URL de la imagen de Supabase
-    const backgroundImageURL = 'https://qyfrfgcefvwpkqtzjjxi.supabase.co/storage/v1/object/public/bsf/CertificadoManosSolidarias.png?t=2024-12-10T16%3A41%3A13.686Z';
+    const backgroundImageURL = 'https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/voluntariado/Certificado.png';
 
     const loadImage = async () => {
       const base64Image = await getImageAsBase64(backgroundImageURL);
@@ -103,10 +103,10 @@ const PreviewCertificate = () => {
     }}>
       {/* Botón para regresar */}
       <img
-        src="https://appbsf.blob.core.windows.net/navidad/botón_regresar.png"
+        src="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/voluntariado/Boton%20Regresar.png"
         alt="Regresar"
         style={{
-          width: '150px',
+          width: '250px',
           height: 'auto',
           borderRadius: '8px',
           cursor: 'pointer',
@@ -130,10 +130,10 @@ const PreviewCertificate = () => {
       {/* Botones para compartir y descargar */}
       <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
         <img
-          src="https://appbsf.blob.core.windows.net/navidad/compartir.webp"
+          src="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/voluntariado/Boton%20compartir.png"
           alt="Compartir"
           style={{
-            width: '150px',
+            width: '250px',
             height: 'auto',
             borderRadius: '8px',
             cursor: 'pointer',
@@ -141,10 +141,10 @@ const PreviewCertificate = () => {
           onClick={handleShare}
         />
         <img
-          src="https://appbsf.blob.core.windows.net/navidad/descargar.webp"
+          src="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/voluntariado/Boton%20descargar.png"
           alt="Descargar"
           style={{
-            width: '150px',
+            width: '250px',
             height: 'auto',
             borderRadius: '8px',
             cursor: 'pointer',

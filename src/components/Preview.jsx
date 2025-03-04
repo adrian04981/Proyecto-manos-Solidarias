@@ -24,8 +24,8 @@ const PreviewCertificate = () => {
     const ctx = canvas.getContext('2d');
 
     // Configuración del tamaño del canvas
-    const width = 620;
-    const height = 877;
+    const width = 800;
+    const height = 800;
     canvas.width = width;
     canvas.height = height;
 
@@ -149,8 +149,8 @@ const PreviewCertificate = () => {
           border: '1px solid #ddd',
           borderRadius: '8px',
           marginBottom: '20px',
-          width: '380px',
-          height: '480px',
+          width: '500px',
+          height: '500px',
         }}
       />
 

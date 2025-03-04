@@ -122,10 +122,11 @@ const PreviewCertificate = () => {
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      minHeight: '100vh',
+      minHeight: '50vh',
       textAlign: 'center',
       transform: window.innerWidth <= 768 ? 'translateY(-50px)' : 'translateY(0)',
-      padding: '20px',
+      padding: '0px',
+      marginTop: window.innerWidth <= 768 ? '100px' : '0',
     }}>
       {/* Botón para regresar */}
       <img
@@ -136,7 +137,7 @@ const PreviewCertificate = () => {
           height: 'auto',
           borderRadius: '8px',
           cursor: 'pointer',
-          marginBottom: '20px',
+          marginBottom: '10px',
         }}
         onClick={handleBack}
       />
@@ -159,7 +160,7 @@ const PreviewCertificate = () => {
           src="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/voluntariado/Boton%20compartir.png"
           alt="Compartir"
           style={{
-            width: '250px',
+            width: '200px',
             height: 'auto',
             borderRadius: '8px',
             cursor: 'pointer',
@@ -170,7 +171,7 @@ const PreviewCertificate = () => {
           src="https://jifdifmiicpkhvkxvnfm.supabase.co/storage/v1/object/public/Manos-Solidarias/voluntariado/Boton%20descargar.png"
           alt="Descargar"
           style={{
-            width: '250px',
+            width: '200px',
             height: 'auto',
             borderRadius: '8px',
             cursor: 'pointer',

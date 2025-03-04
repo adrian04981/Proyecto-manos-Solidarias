@@ -4,7 +4,7 @@ import NameFormVoluntariado from './components/voluntariado/NameForm';
 import PreviewVoluntariado from './components/voluntariado/Preview';
 import NameFormDonacion from './components/donacion/NameForm';
 import PreviewDonacion from './components/donacion/Preview';
-import MonitorRegistros from './components/Voluntariado/MonitorRegistros';
+import MonitorRegistros from './components/voluntariado/MonitorRegistros';
 
 const App = () => {
   const location = useLocation();

@@ -32,13 +32,10 @@ const MonitorRegistros = () => {
 
   return (
     <div style={containerStyle}>
-      <h1 style={titleStyle}>
-        Monitor de Registros
-      </h1>
-      
+      <h1 style={titleStyle}><strong>Monitor de Voluntariado</strong></h1>
       <div style={counterContainerStyle}>
         <h2 style={counterStyle}>
-          {contador} registros
+          Voluntarios totales registrados : <strong>{contador}</strong>
         </h2>
       </div>
 

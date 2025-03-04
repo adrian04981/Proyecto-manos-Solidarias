@@ -5,6 +5,8 @@ import PreviewVoluntariado from './components/voluntariado/Preview';
 import NameFormDonacion from './components/donacion/NameForm';
 import PreviewDonacion from './components/donacion/Preview';
 import MonitorRegistros from './components/voluntariado/MonitorRegistros';
+import MonitorDonaciones from './components/donacion/MonitorDonaciones';
+import Monitor from './components/Monitor';
 
 const App = () => {
   const location = useLocation();
@@ -49,11 +51,9 @@ const App = () => {
         <Routes>
           <Route path="/voluntariado" element={<NameFormVoluntariado />} />
           <Route path="/voluntariado/preview/:name" element={<PreviewVoluntariado />} />
-          <Route path="/Donacion" element={<NameFormDonacion />} />
           <Route path="/donacion" element={<NameFormDonacion />} />
-          <Route path="/Donacion/preview/:name" element={<PreviewDonacion />} />
           <Route path="/donacion/preview/:name" element={<PreviewDonacion />} />
-          <Route path="/monitor-registros" element={<MonitorRegistros />} />
+          <Route path="/monitor" element={<Monitor />} />
         </Routes>
       </div>
       <img

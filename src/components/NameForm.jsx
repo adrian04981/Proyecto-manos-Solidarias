@@ -16,11 +16,12 @@ const NameForm = () => {
 
   const navigate = useNavigate();
   const database = getDatabase(app);
+  const currentYear = new Date().getFullYear();
 
   useEffect(() => {
     const fetchCounters = () => {
       const updates = ['viveres', 'juguetes'].map((type) => {
-        const counterRef = ref(database, `contador_${type}`);
+        const counterRef = ref(database, `${currentYear}/contador_${type}`);
         return onValue(counterRef, (snapshot) => {
           setCounters((prev) => ({
             ...prev,
@@ -33,14 +34,14 @@ const NameForm = () => {
     };
 
     fetchCounters();
-  }, [database]);
+  }, [database, currentYear]);
 
   const toggleSelection = (type) => {
     setSelectedOptions((prev) => ({ ...prev, [type]: !prev[type] }));
   };
 
   const incrementCounter = async (type) => {
-    const counterRef = ref(database, `contador_${type}`);
+    const counterRef = ref(database, `${currentYear}/contador_${type}`);
     try {
       const snapshot = await get(counterRef);
       const currentCount = snapshot.exists() ? snapshot.val() : 0;
@@ -119,9 +120,8 @@ const NameForm = () => {
           {renderOption('juguetes', '#FF9800')}
         </div>
 
-        <button style={{ background: 'none', border: 'none', padding: 0, marginTop: '20px' }}>
+        <button type="submit" style={{ background: 'none', border: 'none', padding: 0, marginTop: '20px' }}>
           <img
-            type="submit"
             src="https://appbsf.blob.core.windows.net/navidad/Botón continuar.png"
             alt="Botón Continuar"
             style={{ width: '200px', height: 'auto', borderRadius: '8px' }}

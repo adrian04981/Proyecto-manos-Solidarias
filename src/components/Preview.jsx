@@ -6,19 +6,6 @@ const PreviewCertificate = () => {
   const canvasRef = useRef(null);
   const navigate = useNavigate();
 
-  // Convertir la imagen de Supabase a base64
-  const getImageAsBase64 = async (imageUrl) => {
-    const response = await fetch(imageUrl);
-    const blob = await response.blob();
-    const base64 = await new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
-    return base64;
-  };
-
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -29,29 +16,45 @@ const PreviewCertificate = () => {
     canvas.width = width;
     canvas.height = height;
 
-    // URL de la imagen de Supabase
-    const backgroundImageURL = 'https://qyfrfgcefvwpkqtzjjxi.supabase.co/storage/v1/object/public/bsf/CertificadoManosSolidarias.png?t=2024-12-10T16%3A41%3A13.686Z';
+    // URL de la imagen local
+    const backgroundImageURL = '/src/assets/CertificadoManosSolidarias.png';
 
-    const loadImage = async () => {
-      const base64Image = await getImageAsBase64(backgroundImageURL);
-      const background = new Image();
-      background.src = base64Image;
-      background.onload = () => {
-        // Dibujar el fondo
-        ctx.drawImage(background, 0, 0, width, height);
+    const background = new Image();
+    
+    background.onload = () => {
+      // Dibujar el fondo
+      ctx.drawImage(background, 0, 0, width, height);
 
-        // Configuración del texto
-        ctx.font = '55px Arial';
-        ctx.fillStyle = '#fff';
-        ctx.textAlign = 'center';
+      // Configuración del texto
+      ctx.font = '55px Arial';
+      ctx.fillStyle = '#fff';
+      ctx.textAlign = 'center';
 
-        // Dibujar el nombre en mayúsculas
-        const upperCaseName = name.toUpperCase();
-        ctx.fillText(upperCaseName, width / 2, 560);
-      };
+      // Dibujar el nombre en mayúsculas
+      const upperCaseName = name.toUpperCase();
+      ctx.fillText(upperCaseName, width / 2, 560);
     };
-
-    loadImage();
+    
+    background.onerror = () => {
+      console.error('Error al cargar la imagen. Problema de CORS.');
+      // Dibujar un fondo alternativo
+      ctx.fillStyle = '#1a472a';
+      ctx.fillRect(0, 0, width, height);
+      
+      // Título
+      ctx.font = 'bold 40px Arial';
+      ctx.fillStyle = '#fff';
+      ctx.textAlign = 'center';
+      ctx.fillText('CERTIFICADO', width / 2, 200);
+      ctx.fillText('MANOS SOLIDARIAS', width / 2, 260);
+      
+      // Nombre
+      ctx.font = '55px Arial';
+      const upperCaseName = name.toUpperCase();
+      ctx.fillText(upperCaseName, width / 2, 560);
+    };
+    
+    background.src = backgroundImageURL;
   }, [name]);
 
   // Descargar el certificado como PNG

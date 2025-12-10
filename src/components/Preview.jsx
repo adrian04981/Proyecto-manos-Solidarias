@@ -30,7 +30,7 @@ const PreviewCertificate = () => {
     canvas.height = height;
 
     // URL de la imagen de Supabase
-    const backgroundImageURL = 'https://yscajmrvogpapzqcfsms.supabase.co/storage/v1/object/public/navidad%20bsf/CertificadoManosSolidarias.webp';
+    const backgroundImageURL = 'https://ivaignkpgfgowlbmpeoi.supabase.co/storage/v1/object/public/BSF/CertificadoManosSolidarias.webp';
 
     const loadImage = async () => {
       const base64Image = await getImageAsBase64(backgroundImageURL);
